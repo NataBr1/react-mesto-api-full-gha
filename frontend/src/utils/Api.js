@@ -95,7 +95,8 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+  // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+  baseUrl: 'https://api.natasha.br.nomoreparties.sbs',
   headers: {
     authorization: 'a876ca46-e461-4c5a-bdea-0d1959b1e750',
     'Content-Type': 'application/json'
