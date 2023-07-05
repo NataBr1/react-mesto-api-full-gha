@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.102.132
+IP 51.250.102.132
 
-Frontend http://natasha.br.nomoreparties.sbs/
+Frontend https://natasha.br.nomoreparties.sbs/
 
-Backend http://api.natasha.br.nomoreparties.sbs/
+Backend https://api.natasha.br.nomoreparties.sbs/
