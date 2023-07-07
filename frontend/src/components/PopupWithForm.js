@@ -1,16 +1,17 @@
 import React from "react";
+import usePopupClose from "../hooks/usePopupClose";
 
-function PopupWithForm({isOpen, onClose, name, title, buttonTitle, children, onSubmit}) {
+function PopupWithForm({isOpen, onClose, title, classNameTitle, buttonTitle, children, onSubmit}) {
+
+  usePopupClose(isOpen, onClose);
 
   return (
-    <div className={`popup popup_${name} ${isOpen ? `popup_opened`: ""}`} >
+    <div className={`popup ${isOpen ? `popup_opened`: ""}`} >
       <div className="popup__container">
         <form
-          className={`popup__form popup__form_${name}`}
-          name={`${name}`}
           onSubmit={onSubmit}
         >
-          <h2 className="popup__title">{title}</h2>
+          <h2 className={classNameTitle}>{title}</h2>
           {children}
           <button className="popup__button" type="submit" aria-label="Сохранить">
             {buttonTitle}

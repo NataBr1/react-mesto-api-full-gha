@@ -3,7 +3,7 @@ import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main ({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, cards}) {
-  const currentUser = React.useContext(CurrentUserContext); //11ПР Используйте контекст в Main
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
@@ -13,21 +13,20 @@ function Main ({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
         <div className="profile__user">
 
           <div className="profile__avatar-group" >
-            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар" /> {/* //11ПР Используйте контекст в Main */}
+            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар" />
             <button
               className="profile__avatar-edit"
               onClick={onEditAvatar} />
           </div>
 
           <div className="profile__intro">
-            <h1 className="profile__title">{currentUser.name}</h1> {/* //11ПР Используйте контекст в Main */}
+            <h1 className="profile__title">{currentUser.name}</h1>
             <button
               className="profile__edit-button link-hover"
               type="button"
               aria-label="Редактировать профиль"
-              onClick={onEditProfile}
-            />
-            <p className="profile__subtitle">{currentUser.about}</p> {/* //11ПР Используйте контекст в Main */}
+              onClick={onEditProfile} />
+            <p className="profile__subtitle">{currentUser.about}</p>
           </div>
 
         </div>
@@ -36,24 +35,19 @@ function Main ({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
           className="profile__add-button link-hover"
           type="button"
           aria-label="Добавить место"
-          onClick={onAddPlace}
-        />
+          onClick={onAddPlace} />
 
       </section>
 
       {/* Карточки */}
       <section className="elements">
-        {cards.map((card, _id) => (
+        {cards.map((card) => (
             <Card
               key={card._id}
-              link={card.link}
-              name={card.name}
-              likes={card.likes.length}
               onCardClick={onCardClick}
               onCardLike={onCardLike}
               onCardDelete={onCardDelete}
-              card={card}
-            />
+              card={card} />
           ))}
       </section>
 

@@ -1,47 +1,48 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { useForm } from "../hooks/useForm";
 
-function EditProfilePopup( {onUpdateUser, isOpen, onClose }) {
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+function EditProfilePopup( {onUpdateUser, isOpen, onClose, isLoading }) {
   const currentUser = React.useContext(CurrentUserContext);
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeDescription(e) {
-    setDescription(e.target.value);
-  }
+  const {values, handleChange, setValues} = useForm({});
 
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateUser({
-      nameUser: name,
-      jobUser: description
+      nameUser: values.nameUser,
+      jobUser: values.jobUser,
     });
   }
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setValues({
+      nameUser: currentUser.name,
+      jobUser: currentUser.about
+    })
   }, [isOpen, currentUser]);
 
   return (
-    <PopupWithForm isOpen={isOpen} name="user" title="Редактировать профиль" buttonTitle="Сохранить" onClose={onClose} onSubmit={handleSubmit} >
+    <PopupWithForm
+      isOpen={isOpen}
+      title="Редактировать профиль"
+      classNameTitle="popup__title"
+      buttonTitle={isLoading ? 'Сохранение...' : 'Сохранить'}
+      onClose={onClose}
+      onSubmit={handleSubmit} >
+
         <label className="field">
             <input
               id="name-input"
               className="popup__input"
               name="nameUser"
               type="text"
-              value={name || ''}
+              value={values.nameUser || ''}
               placeholder="Укажите ваше имя"
               required=""
               minLength={2}
               maxLength={40}
-              onChange={handleChangeName}
+              onChange={handleChange}
             />
             <span className="popup__input-error name-input-error" />
         </label>
@@ -52,15 +53,16 @@ function EditProfilePopup( {onUpdateUser, isOpen, onClose }) {
               className="popup__input"
               name="jobUser"
               type="text"
-              value={description || ''}
+              value={values.jobUser || ''}
               placeholder="Укажите вашу профессию"
               required=""
               minLength={2}
               maxLength={200}
-              onChange={handleChangeDescription}
+              onChange={handleChange}
             />
             <span className="popup__input-error job-input-error" />
         </label>
+
     </PopupWithForm>
   );
 }

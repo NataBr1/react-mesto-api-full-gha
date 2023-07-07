@@ -4,6 +4,11 @@ class Api {
     this._headers = options.headers;
   }
 
+  //универсальный метод запроса с проверкой ответа
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse)
+  }
+
   // Проверка ответа
   _checkResponse(res) {
     if (res.ok) {
@@ -14,91 +19,90 @@ class Api {
 
   //Метод получения информации о пользователе
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+    return this._request(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   }
 
   //Метод получения карточек
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+    return this._request(`${this._baseUrl}/cards`, {
+      headers: this._headers,
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   }
 
   //Метод изменения данных о пользователе
   setUserInfo(data) {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: data.nameUser,
         about: data.jobUser
-      })
+      }),
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   }
 
   //Метод изменения аватара
   setUserAvatar(data) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+    return this._request(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.userAvatar
-      })
+      }),
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   }
 
   //Метод добавления карточки
   addCard(data) {
-    return fetch(`${this._baseUrl}/cards`, {
+    return this._request(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link
-      })
+      }),
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   }
 
   //Метод удаления карточки
   deleteCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+    return this._request(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   };
 
   //Метод отправки лайка
   putLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   };
 
   //Метод снятия лайка
   removeLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
+      credentials: 'include'
     })
-    .then(this._checkResponse)
   };
 }
 
 const api = new Api({
   // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
-  baseUrl: 'https://api.natasha.br.nomoreparties.sbs',
+  baseUrl: 'http://localhost:3000',
   headers: {
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'
   }
 });
