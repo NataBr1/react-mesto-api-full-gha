@@ -44,9 +44,9 @@ function App() {
   React.useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getInitialCards(), api.getUserInfo()])
-      .then(([cardData, res]) => {
+      .then(([cardData, data]) => {
         setCards(cardData);
-        setCurrentUser(res);
+        setCurrentUser(data);
       })
       .catch((err) => {
         console.log(`${err}`);
@@ -72,12 +72,13 @@ function App() {
   }
 
   //Авторизация пользователя
-  function handleLogin (password, email) {
+  function handleLogin (password, email) {console.log(loggedIn)
     auth.authorize(password, email)
       .then(() => {
+          localStorage.setItem('loggedIn', true);
           setLoggedIn(true);
+          console.log(loggedIn);
           setUserEmail(email);
-          // localStorage.setItem("jwt", res.token);
           navigate("/", {replace: true});
           handleOpenInfoTooltip();
           setImgResAuth(hello);
@@ -93,20 +94,17 @@ function App() {
 
   //Проверка токена
   function checkToken () {
-    // const jwt = localStorage.getItem('jwt');
-    // if (jwt) {
+    if (localStorage.getItem('loggedIn')) {
       auth.checkToken()
-        .then((user) => {
-          if (user.data) {
-            setLoggedIn(true);
-            setUserEmail(user.data.email);
-            navigate("/", {replace: true});
-          }
+        .then((user) => {console.log(loggedIn)
+          setLoggedIn(true);
+          setUserEmail(user.email);
+          navigate("/", {replace: true});
         })
         .catch((err) => {
           console.log(`${err}`);
         })
-    // }
+    }
   }
 
   React.useEffect(() => {
@@ -115,12 +113,12 @@ function App() {
 
   //Выход
   function signOut() {
-    // localStorage.removeItem('jwt');
+    localStorage.removeItem('loggedIn');
     navigate('/signin');
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     if (!isLiked) {
       api.putLike(card._id)
         .then((cardId) => {

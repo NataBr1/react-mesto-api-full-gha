@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+// require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
@@ -17,17 +18,19 @@ app.use(requestLogger);
 app.use(cors({
   credentials: true,
   origin: [
+    'https://api.natasha.br.nomoreparties.sbs',
+    'https://natasha.br.nomoreparties.sbs',
     'http://localhost:3000',
     'http://localhost:3001',
   ],
 }));
 
 // Краш-тест сервера, удалить после ревью
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use(router);
 
