@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP 51.250.102.132
+IP 62.84.120.194
 
 Frontend https://natasha.br.nomoreparties.sbs/
 
